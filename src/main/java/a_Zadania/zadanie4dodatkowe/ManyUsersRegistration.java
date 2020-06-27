@@ -1,8 +1,9 @@
-package a_Zadania.zadanie2dodatkowe;
+package a_Zadania.zadanie4dodatkowe;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -13,7 +14,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class ManyUsersRegistration {
 
   private WebDriver driver;
-  private final int numberOfUsersToCreate = 5;
+  private final int numberOfUsersToCreate = 3;
+
+  private String randomFirstName;
+  private String randomLastName;
+  private String randomEmail;
+  private String randomBirthDate;
 
   private final static String[] socialTitles = {"Mr.", "Mrs."};
   private final static String[] firstNames = {"Adam", "Jan", "Anna", "Monika"};
@@ -37,7 +43,7 @@ public class ManyUsersRegistration {
   }
 
   @Test
-  public void registerNewUsers() {
+  public void registerNewUsersAssertions() {
     for (int i = 0; i < numberOfUsersToCreate; i++) {
       openNewUserRegistrationForm();
       fillInRegistrationForm();
@@ -48,6 +54,10 @@ public class ManyUsersRegistration {
       saveAddressChanges();
 
       driver.findElement(By.xpath("//article[@data-alert='success']"));
+
+      openPersonalInfo();
+
+      checkPersonalInfo();
 
       signOut();
     }
@@ -67,30 +77,38 @@ public class ManyUsersRegistration {
         .get(getRandomArrayIndex(socialTitles));
     socialTitle.click();
 
+    randomFirstName = getRandomArrayElement(firstNames);
     WebElement firstName = driver.findElement(By.name("firstname"));
     firstName.clear();
-    firstName.sendKeys(getRandomArrayElement(firstNames));
+    firstName.sendKeys(randomFirstName);
 
+    randomLastName = getRandomArrayElement(lastNames);
     WebElement lastName = driver.findElement(By.name("lastname"));
     lastName.clear();
-    lastName.sendKeys(getRandomArrayElement(lastNames));
+    lastName.sendKeys(randomLastName);
 
+    randomEmail = "karol.kowalski" + System.currentTimeMillis() + "@mailinator.com";
     WebElement email = driver.findElement(By.name("email"));
     email.clear();
-    email.sendKeys("karol.kowalski" + System.currentTimeMillis() + "@mailinator.com");
+    email.sendKeys(randomEmail);
 
     WebElement password = driver.findElement(By.name("password"));
     password.clear();
     password.sendKeys("Pass123");
 
+    randomBirthDate = getRandomArrayElement(birthdays);
     WebElement birthDate = driver.findElement(By.name("birthday"));
     birthDate.clear();
-    birthDate.sendKeys(getRandomArrayElement(birthdays));
+    birthDate.sendKeys(randomBirthDate);
   }
 
   private void openNewAddressForm() {
     driver.findElement(By.xpath("//a[@title='Addresses']")).click();
     driver.findElement(By.xpath("//span[text()='Create new address']")).click();
+  }
+
+  private void openPersonalInfo() {
+    driver.findElement(By.xpath("//a[@title='Personal info']")).click();
   }
 
   private void registerNewUser() {
@@ -123,6 +141,21 @@ public class ManyUsersRegistration {
     driver.findElement(By.xpath("//a[contains(@class,'logout')]")).click();
   }
 
+  private void checkPersonalInfo() {
+    String actualFirstName = driver.findElement(By.name("firstname")).getAttribute("value");
+    Assert.assertEquals(actualFirstName, randomFirstName);
+
+    String actualLastName = driver.findElement(By.name("lastname")).getAttribute("value");
+    Assert.assertEquals(actualLastName, randomLastName);
+
+    String actualEmail = driver.findElement(By.name("email")).getAttribute("value");
+    Assert.assertEquals(actualEmail, randomEmail);
+
+    String actualBirthDate = driver.findElement(By.name("birthday")).getAttribute("value");
+    Assert.assertEquals(actualBirthDate, randomBirthDate);
+  }
+
+
   //helper methods
   private int getRandomArrayIndex(String[] stringArray) {
     return new Random().nextInt(stringArray.length);
@@ -131,7 +164,6 @@ public class ManyUsersRegistration {
   private String getRandomArrayElement(String[] stringArray) {
     Random random = new Random();
     int randomIndex = random.nextInt(stringArray.length);
-
     return stringArray[randomIndex];
   }
 }
