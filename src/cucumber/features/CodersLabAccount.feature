@@ -4,16 +4,34 @@ Feature: Create coders lab account
   Scenario: create coders lab account
     Given I am on the Coders Lab page
     When I click sign in
-    And I enter following email address "qq1q@wp.pl" and submit
+    And I enter following email address "qq41q@wp.pl" and submit
     And  I fill in personal information
-      | Title       | Mr.              |
-      | FirstName   | Adam             |
-      | LastName    | Nowak            |
-      | Password    | wlkjehfowij12131 |
-      | DateOfBirth | 12-10-1990       |
+      | Title       | Mr.               |
+      | FirstName   | Adam              |
+      | LastName    | Nowak             |
+      | Password    | wlkje8hfowij12131 |
+      | DateOfBirth | 12-10-1990        |
     And I register new user
     Then Account was created and I can see following information "Your account has been created."
     Then quit browser
+
+
+  @Task6
+  Scenario: create coders lab account - parameters
+    Given I am on the Coders Lab page
+    When I click sign in
+    And I enter following email address "ii800e01900er@wp.pl" and submit
+    And I choose "Mr." title
+    And I type first name "Jan" and last name"Kowalski"
+    And I confirm email address
+    And I type password "uo0iu98798"
+    And I select date of birth "12-3-1986"
+    And I check newsletter checkbox
+    And I check special offers checkbox
+    And I register new user
+    Then Account was created and I can see following information "Your account has been created."
+    Then quit browser
+
 
   @Task7
   Scenario Outline: create coders lab account - parameters
@@ -32,8 +50,9 @@ Feature: Create coders lab account
     Then quit browser
 
     Examples:
-      | title | firstName | lastName | password   | dateOfBirth | emailAddress       |
-      | Mr.   | Jan       | Kowalski | uo0iu98798 | 12-3-1986   | ii00e01900er@wp.pl |
+      | title | firstName | lastName | password   | dateOfBirth | emailAddress        |
+      | Mr.   | Jan       | Kowalski | uo0iu98798 | 12-3-1986   | ii800e01900er@wp.pl |
+
 
   @Task6a
   Scenario Outline: login coders lab account - success

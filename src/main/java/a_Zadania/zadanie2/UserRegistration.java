@@ -67,6 +67,9 @@ public class UserRegistration {
 
     //additional fields
     //Job expectation select
+    Select month = new Select(driver.findElement(By.id("expectation")));
+    month.selectByValue("12");
+
     Select jobExpectation = new Select(driver.findElement(By.id("expectation")));
     jobExpectation.selectByVisibleText("Challenging");
 

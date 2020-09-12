@@ -1,9 +1,9 @@
 package steps;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 
 public class CodersLabSteps {
 
-  WebDriver driver;
+  private static WebDriver driver;
 
   @Given("I am on the Coders Lab page")
   public void iAmOnGoogleSearchPage() {
@@ -34,7 +34,7 @@ public class CodersLabSteps {
   @When("^I enter following email address \"(.*)\" and submit$")
   public void enterEmailAddress(String emailAddress) {
     WebElement emailAddressInput = driver.findElement(By.name("email_create"));
-    emailAddressInput.sendKeys(emailAddress);
+    emailAddressInput.sendKeys(System.currentTimeMillis() + emailAddress);
 
     WebElement createAccountButton = driver.findElement(By.id("SubmitCreate"));
     createAccountButton.click();
@@ -105,16 +105,16 @@ public class CodersLabSteps {
     //System.out.println("is selected2: " + specialOffersCheckbox.isSelected());
   }
 
-  @When("^I fill in personal information$")
-  public void fillInPersonalInformation(Map<String, String> inboxParams) {
-    chooseTitle(inboxParams.get("Title"));
-    typeFullName(inboxParams.get("FirstName"), inboxParams.get("LastName"));
-    confirmPassword();
-    typePassword(inboxParams.get("Password"));
-    selectDateOfBirth(inboxParams.get("DateOfBirth"));
-    checkNewsletterCheckbox();
-    checkSpecialOffersCheckbox();
-  }
+//  @When("^I fill in personal information$")
+//  public void fillInPersonalInformation(Map<String, String> inboxParams) {
+//    chooseTitle(inboxParams.get("Title"));
+//    typeFullName(inboxParams.get("FirstName"), inboxParams.get("LastName"));
+//    confirmPassword();
+//    typePassword(inboxParams.get("Password"));
+//    selectDateOfBirth(inboxParams.get("DateOfBirth"));
+//    checkNewsletterCheckbox();
+//    checkSpecialOffersCheckbox();
+//  }
 
   @When("^I register new user$")
   public void registerNewUser() {

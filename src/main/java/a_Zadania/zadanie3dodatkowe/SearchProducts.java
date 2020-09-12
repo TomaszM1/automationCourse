@@ -29,7 +29,7 @@ public class SearchProducts {
   }
 
   @Test
-  public void searchProducts() {
+  public void searchProducts() throws InterruptedException {
     choosePriceRangeAndWaitForResults("11-14");
 //    Thread.sleep(3000);
     checkFilterResultsByPrice(11, 14);
@@ -40,13 +40,14 @@ public class SearchProducts {
     driver.quit();
   }
 
-  private void choosePriceRangeAndWaitForResults(String priceRange) {
+  private void choosePriceRangeAndWaitForResults(String priceRange) throws InterruptedException {
+    //Wyszukaj filtr
     WebElement priceRangeCheckbox = driver
         .findElement(By.cssSelector("input[data-search-url*='" + priceRange + "']"));
     priceRangeCheckbox.click();
 
-    WebDriverWait wait = new WebDriverWait(driver, 5);
-    wait.until(ExpectedConditions.stalenessOf(priceRangeCheckbox));
+//    WebDriverWait wait = new WebDriverWait(driver, 5);
+//    wait.until(ExpectedConditions.stalenessOf(priceRangeCheckbox));
   }
 
   private void checkFilterResultsByPrice(double lowRange, double highRange) {
